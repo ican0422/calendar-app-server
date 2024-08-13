@@ -27,4 +27,8 @@ INSERT INTO schedule (Name, Content, Password) VALUES(?, ?, ?);
 SELECT * FROM Schedule WHERE id = ?;
 
 -- 게시물 전체 조회
-SELECT * FROM schedule;
+SELECT * FROM schedule
+WHERE 1=1
+AND Revision_Date = ?
+AND Name = ?
+ORDER BY Revision_Date DESC;

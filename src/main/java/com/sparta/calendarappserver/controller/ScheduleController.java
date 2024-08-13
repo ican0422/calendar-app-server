@@ -8,6 +8,7 @@ import com.sparta.calendarappserver.service.ScheduleService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 // RestController
@@ -35,10 +36,11 @@ public class ScheduleController {
         return scheduleService.getScheduleResponseDto(id);
     }
     // 일정 전체 조회 (GET)
-    @GetMapping("/schedules")
-    public List<GetAllScheduleResponseDto> getAllSchedule() {
+    @GetMapping("/schedules/param")
+    public List<GetAllScheduleResponseDto> getAllSchedule(@RequestParam(required = false) Date revision,
+                                                          @RequestParam(required = false) String name) {
         ScheduleService scheduleService = new ScheduleService(jdbcTemplate);
-        return scheduleService.getAllSchedule();
+        return scheduleService.getAllSchedule(revision, name);
     }
     // 일정 수정 (PUT)
     @PutMapping("/schedules/{id}")

@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,11 +63,23 @@ public class ScheduleRepository {
         });
     }
 
-    // 사용자 일정 모두 조회
-    public List<GetAllScheduleResponseDto> findAllSchedule() {
-        String sql = "SELECT * FROM schedule";
+    // 사용자 일정 조회
+    public List<GetAllScheduleResponseDto> findAllSchedule(Date revision, String name) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM schedule WHERE 1=1");
+        List<Object> params = new ArrayList<>();
 
-        return jdbcTemplate.query(sql, new RowMapper<GetAllScheduleResponseDto>() {
+        if (revision != null){
+            sql.append(" AND Revision_Date = ?");
+            params.add(revision);
+        }
+        if (name != null) {
+            sql.append(" AND Name = ?");
+            params.add(name);
+        }
+
+        sql.append(" ORDER BY Revision_Date DESC");
+
+        return jdbcTemplate.query(sql.toString(), params.toArray(), new RowMapper<GetAllScheduleResponseDto>() {
             @Override
             public GetAllScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 // SQL 의 결과로 받아온 schedule 데이터들을 GetAllScheduleResponseDto 타입으로 변환해줄 메서드

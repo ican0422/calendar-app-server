@@ -5,6 +5,7 @@ import com.sparta.calendarappserver.entity.Schedule;
 import com.sparta.calendarappserver.repository.ScheduleRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 public class ScheduleService {
@@ -43,9 +44,9 @@ public class ScheduleService {
     }
 
     // 일정 전부 조회
-    public List<GetAllScheduleResponseDto> getAllSchedule() {
+    public List<GetAllScheduleResponseDto> getAllSchedule(Date revision , String name) {
         // db 조회
         ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
-        return scheduleRepository.findAllSchedule();
+        return scheduleRepository.findAllSchedule(revision, name);
     }
 }
