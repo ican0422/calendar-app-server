@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.entity;
 
+import com.sparta.calendarappserver.dto.GetScheduleRequestDto;
 import com.sparta.calendarappserver.dto.PostScheduleRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,9 @@ public class Schedule {
         this.Name = requestDto.getName();
         this.Content = requestDto.getContent();
         this.Password = requestDto.getPassword();
+    }
+
+    public Schedule(GetScheduleRequestDto getScheduleRequestDto) {
+        this.Id = getScheduleRequestDto.getId();
     }
 }

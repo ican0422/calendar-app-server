@@ -23,5 +23,8 @@ create table Schedule
 -- 게시물 등록
 INSERT INTO schedule (Name, Content, Password) VALUES(?, ?, ?);
 
+-- 게시물 단건 조회
+SELECT * FROM Schedule WHERE id = ?;
+
 -- 게시물 전체 조회
 SELECT * FROM schedule;
