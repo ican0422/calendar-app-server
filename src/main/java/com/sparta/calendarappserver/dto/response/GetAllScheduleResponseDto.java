@@ -1,4 +1,4 @@
-package com.sparta.calendarappserver.dto;
+package com.sparta.calendarappserver.dto.response;
 
 import lombok.Getter;
 

@@ -1,9 +1,7 @@
 package com.sparta.calendarappserver.repository;
 
-import com.sparta.calendarappserver.dto.GetAllScheduleResponseDto;
-import com.sparta.calendarappserver.dto.GetScheduleRequestDto;
-import com.sparta.calendarappserver.dto.GetScheduleResponseDto;
-import com.sparta.calendarappserver.dto.PostScheduleResponseDto;
+import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
+import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
