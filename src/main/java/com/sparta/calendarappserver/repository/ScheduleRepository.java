@@ -3,6 +3,7 @@ package com.sparta.calendarappserver.repository;
 import com.sparta.calendarappserver.dto.schedule.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.schedule.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -69,7 +70,7 @@ public class ScheduleRepository {
     }
 
     // 사용자 일정 조회
-    public List<GetAllScheduleResponseDto> findAllSchedule(Date revision, String name) {
+    public List<GetAllScheduleResponseDto> findAllSchedule(Date revision, String name, Pageable pageable) {
         StringBuilder sql = new StringBuilder
         (
                 """
@@ -91,6 +92,10 @@ public class ScheduleRepository {
         }
 
         sql.append(" ORDER BY S.Revision_Date DESC");
+
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(pageable.getPageSize()); // 페이지 크기
+        params.add(pageable.getOffset()); // 페이지 시작 위치
 
         return jdbcTemplate.query(sql.toString(), params.toArray(), new RowMapper<GetAllScheduleResponseDto>() {
             @Override

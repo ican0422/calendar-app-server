@@ -8,6 +8,7 @@ import com.sparta.calendarappserver.dto.schedule.response.GetScheduleResponseDto
 import com.sparta.calendarappserver.dto.schedule.response.PostScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
 import com.sparta.calendarappserver.repository.ScheduleRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -43,14 +44,14 @@ public class ScheduleService {
         if (getSchedule != null) {
             return getSchedule;
         } else {
-            throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
+            throw new NullPointerException("선택한 일정은 존재하지 않습니다.");
         }
     }
 
     // 일정 전부 조회
-    public List<GetAllScheduleResponseDto> getAllSchedule(Date revision , String name) {
+    public List<GetAllScheduleResponseDto> getAllSchedule(Date revision , String name, Pageable pageable) {
         // db 조회
-        return scheduleRepository.findAllSchedule(revision, name);
+        return scheduleRepository.findAllSchedule(revision, name, pageable);
     }
 
     // 일정 수정
@@ -66,7 +67,7 @@ public class ScheduleService {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
         } else {
-            throw new IllegalArgumentException("해당 일정이 없습니다.");
+            throw new NullPointerException("해당 일정이 없습니다.");
         }
     }
 
@@ -83,7 +84,7 @@ public class ScheduleService {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
         } else {
-            throw new IllegalArgumentException("해당 일정이 없습니다.");
+            throw new NullPointerException("해당 일정이 없습니다.");
         }
     }
 }

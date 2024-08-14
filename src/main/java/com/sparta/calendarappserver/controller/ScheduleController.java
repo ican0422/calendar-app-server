@@ -7,6 +7,10 @@ import com.sparta.calendarappserver.dto.schedule.response.GetAllScheduleResponse
 import com.sparta.calendarappserver.dto.schedule.response.GetScheduleResponseDto;
 import com.sparta.calendarappserver.dto.schedule.response.PostScheduleResponseDto;
 import com.sparta.calendarappserver.service.ScheduleService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -38,9 +42,10 @@ public class ScheduleController {
     @GetMapping("/schedules/param")
     public List<GetAllScheduleResponseDto> getAllSchedule(
             @RequestParam(required = false) Date revision,
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) String name,
+            @PageableDefault(page = 0, size = 5) Pageable pageable
     ) {
-        return scheduleService.getAllSchedule(revision, name);
+        return scheduleService.getAllSchedule(revision, name, pageable);
     }
     // 일정 수정 (PUT)
     @PutMapping("/schedules/{id}")
@@ -51,5 +56,10 @@ public class ScheduleController {
     @DeleteMapping("/schedules/{id}")
     public Long deleteSchedule(@PathVariable Long id, @RequestBody DeleteScheduleRequestDto deleteScheduleRequestDto) {
         return scheduleService.deleteSchedule(id, deleteScheduleRequestDto);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
+    public ResponseEntity<String> exception(Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }
