@@ -1,11 +1,12 @@
-package com.sparta.calendarappserver.dto.response;
+package com.sparta.calendarappserver.dto.schedule.response;
 
+import com.sparta.calendarappserver.entity.Schedule;
 import lombok.Getter;
 
 import java.util.Date;
 
 @Getter
-public class GetAllScheduleResponseDto {
+public class GetScheduleResponseDto {
     private Long id;
     //    private Long Manager_Id; // 담당자 고유 ID (수정 필요)
     private String name;
@@ -13,11 +14,15 @@ public class GetAllScheduleResponseDto {
     private Date registrationDate;
     private Date revisionDate;
 
-    public GetAllScheduleResponseDto(Long id, String name, String content, Date registrationDate, Date revisionDate) {
+    public GetScheduleResponseDto(Long id, String name, String content, Date registrationDate, Date revisionDate) {
         this.id = id;
         this.name = name;
         this.content = content;
         this.registrationDate = registrationDate;
         this.revisionDate = revisionDate;
+    }
+
+    public GetScheduleResponseDto(Schedule oneSchedule) {
+        this.id = oneSchedule.getId();
     }
 }

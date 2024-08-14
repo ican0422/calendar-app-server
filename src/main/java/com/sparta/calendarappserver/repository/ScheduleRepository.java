@@ -1,14 +1,13 @@
 package com.sparta.calendarappserver.repository;
 
-import com.sparta.calendarappserver.dto.request.DeleteScheduleRequestDto;
-import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
-import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
-import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
+import com.sparta.calendarappserver.dto.schedule.request.UpdateScheduleRequestDto;
+import com.sparta.calendarappserver.dto.schedule.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class ScheduleRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -47,18 +47,18 @@ public class ScheduleRepository {
     }
 
     // 사용자 일정 한개 조회
-    public GetScheduleResponseDto getOneSchedule(Long id) {
+    public Schedule getOneSchedule(Long id) {
         String sql = "SELECT * FROM Schedule WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<GetScheduleResponseDto>() {
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Schedule>() {
             @Override
-            public GetScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Long scheduleId = rs.getLong("id");
                 String name = rs.getString("Name");
                 String content = rs.getString("Content");
                 Date registration_Date = rs.getDate("registration_Date");
                 Date revision_Date = rs.getDate("revision_Date");
-                return new GetScheduleResponseDto(scheduleId, name, content, registration_Date, revision_Date);
+                return new Schedule(scheduleId, name, content, registration_Date, revision_Date);
             }
         });
     }

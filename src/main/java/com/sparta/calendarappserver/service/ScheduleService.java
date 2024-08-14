@@ -1,23 +1,25 @@
 package com.sparta.calendarappserver.service;
 
-import com.sparta.calendarappserver.dto.request.DeleteScheduleRequestDto;
-import com.sparta.calendarappserver.dto.request.PostScheduleRequestDto;
-import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
-import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
-import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
-import com.sparta.calendarappserver.dto.response.PostScheduleResponseDto;
+import com.sparta.calendarappserver.dto.schedule.request.DeleteScheduleRequestDto;
+import com.sparta.calendarappserver.dto.schedule.request.PostScheduleRequestDto;
+import com.sparta.calendarappserver.dto.schedule.request.UpdateScheduleRequestDto;
+import com.sparta.calendarappserver.dto.schedule.response.GetAllScheduleResponseDto;
+import com.sparta.calendarappserver.dto.schedule.response.GetScheduleResponseDto;
+import com.sparta.calendarappserver.dto.schedule.response.PostScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
 import com.sparta.calendarappserver.repository.ScheduleRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class ScheduleService {
-    private final JdbcTemplate jdbcTemplate;
 
-    public ScheduleService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    private final ScheduleRepository scheduleRepository;
+
+    public ScheduleService(ScheduleRepository scheduleRepository) {
+        this.scheduleRepository = scheduleRepository;
     }
 
     // 일정 생성
@@ -26,7 +28,6 @@ public class ScheduleService {
         Schedule schedule = new Schedule(requestDto);
 
         // db 저장
-        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
         Schedule saveSchedule = scheduleRepository.saveSchedule(schedule);
 
         // entity -> requestDto
@@ -37,10 +38,8 @@ public class ScheduleService {
 
     // 일정 하나만 조회
     public GetScheduleResponseDto getScheduleResponseDto(Long id) {
-        // db 조회
-        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
-
-        GetScheduleResponseDto getSchedule = scheduleRepository.getOneSchedule(id);
+        // entity -> requestDto
+        GetScheduleResponseDto getSchedule = new GetScheduleResponseDto(scheduleRepository.getOneSchedule(id));
         if (getSchedule != null) {
             return getSchedule;
         } else {
@@ -51,14 +50,11 @@ public class ScheduleService {
     // 일정 전부 조회
     public List<GetAllScheduleResponseDto> getAllSchedule(Date revision , String name) {
         // db 조회
-        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
         return scheduleRepository.findAllSchedule(revision, name);
     }
 
     // 일정 수정
     public Long updateSchedule(Long id, UpdateScheduleRequestDto updateScheduleRequestDto) {
-        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
-
         // 일정이 있는지 확인
         Schedule findId = scheduleRepository.findById(id);
         if (findId != null){
@@ -76,8 +72,6 @@ public class ScheduleService {
 
     // 일정 삭제
     public Long deleteSchedule(Long id, DeleteScheduleRequestDto deleteScheduleRequestDto) {
-        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
-
         // 일정이 있는지 확인
         Schedule findId = scheduleRepository.findById(id);
         if (findId != null){
