@@ -8,13 +8,13 @@ import lombok.Getter;
 public class PostScheduleResponseDto {
     private Long id;
 //    private Long Manager_Id; // 담당자 고유 ID (수정 필요)
-    private String name;
+    private Long manager_id;
     private String content;
     private String password;
 
     public PostScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.name = schedule.getName();
+        this.manager_id = schedule.getManager_Id();
         this.content = schedule.getContent();
         this.password = schedule.getPassword();
     }

@@ -14,14 +14,6 @@ public class GetScheduleResponseDto {
     private Date registrationDate;
     private Date revisionDate;
 
-    public GetScheduleResponseDto(Long id, String name, String content, Date registrationDate, Date revisionDate) {
-        this.id = id;
-        this.name = name;
-        this.content = content;
-        this.registrationDate = registrationDate;
-        this.revisionDate = revisionDate;
-    }
-
     public GetScheduleResponseDto(Schedule oneSchedule) {
         this.id = oneSchedule.getId();
         this.name = oneSchedule.getName();

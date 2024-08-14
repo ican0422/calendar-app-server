@@ -30,12 +30,12 @@ public class ScheduleRepository {
 
         KeyHolder keyHolder = new GeneratedKeyHolder(); // 기본 키를 반환받기 위한 객체
 
-        String sql = "INSERT INTO schedule (name, content, password) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO schedule (Manager_Id, content, password) VALUES(?, ?, ?)";
         jdbcTemplate.update( con -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
 
-            preparedStatement.setString(1, schedule.getName());
+            preparedStatement.setLong(1, schedule.getManager_Id());
             preparedStatement.setString(2, schedule.getContent());
             preparedStatement.setString(3, schedule.getPassword());
             return preparedStatement;
@@ -48,7 +48,12 @@ public class ScheduleRepository {
 
     // 사용자 일정 한개 조회
     public Schedule getOneSchedule(Long id) {
-        String sql = "SELECT * FROM Schedule WHERE id = ?";
+        String sql = """
+                    SELECT S.Id, M.Name, S.Content, S.Registration_Date, S.Revision_Date
+                    FROM Schedule AS S INNER JOIN Manager AS M 
+                    ON S.Manager_Id = M.Id
+                    WHERE S.Id = ?
+                    """;
 
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Schedule>() {
             @Override
@@ -65,19 +70,27 @@ public class ScheduleRepository {
 
     // 사용자 일정 조회
     public List<GetAllScheduleResponseDto> findAllSchedule(Date revision, String name) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM schedule WHERE 1=1");
+        StringBuilder sql = new StringBuilder
+        (
+                """
+                SELECT S.Id, M.Name, S.Content, S.Registration_Date, S.Revision_Date
+                FROM Schedule AS S INNER JOIN Manager AS M
+                ON S.Manager_Id = M.Id
+                WHERE 1=1
+                """
+        );
         List<Object> params = new ArrayList<>();
 
         if (revision != null){
-            sql.append(" AND Revision_Date = ?");
+            sql.append(" AND S.Revision_Date = ?");
             params.add(revision);
         }
         if (name != null) {
-            sql.append(" AND Name = ?");
+            sql.append(" AND M.Name = ?");
             params.add(name);
         }
 
-        sql.append(" ORDER BY Revision_Date DESC");
+        sql.append(" ORDER BY S.Revision_Date DESC");
 
         return jdbcTemplate.query(sql.toString(), params.toArray(), new RowMapper<GetAllScheduleResponseDto>() {
             @Override
@@ -94,8 +107,8 @@ public class ScheduleRepository {
     }
     // 사용자 일정 수정 ( 내용, 담당자 변경)
     public void update(Long id, UpdateScheduleRequestDto updateScheduleRequestDto) {
-        String sql ="UPDATE schedule SET Name = ?, Content = ? WHERE Id = ?";
-        jdbcTemplate.update(sql, updateScheduleRequestDto.getName(), updateScheduleRequestDto.getContent(), id);
+        String sql ="UPDATE schedule SET Manager_Id = ?, Content = ? WHERE Id = ?";
+        jdbcTemplate.update(sql, updateScheduleRequestDto.getManager_id(), updateScheduleRequestDto.getContent(), id);
     }
 
     // 사용자 일정 삭제

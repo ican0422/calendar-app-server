@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class PostScheduleRequestDto {
 //    private Long Manager_Id; // 담당자 고유 ID (수정 필요)
-    private String name;
+    private Long manager_id;
     private String content;
     private String password;
 }
