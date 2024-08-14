@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.repository;
 
+import com.sparta.calendarappserver.dto.request.DeleteScheduleRequestDto;
 import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
@@ -98,6 +99,10 @@ public class ScheduleRepository {
     }
 
     // 사용자 일정 삭제
+    public void delete(Long id) {
+        String sql = "DELETE FROM schedule WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 
     // 비밀번호 확인
     public Schedule findByPwd(Long id) {

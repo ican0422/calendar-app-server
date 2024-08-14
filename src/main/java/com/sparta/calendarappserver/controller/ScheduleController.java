@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.controller;
 
+import com.sparta.calendarappserver.dto.request.DeleteScheduleRequestDto;
 import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
@@ -51,7 +52,8 @@ public class ScheduleController {
     }
     // 일정 삭제 (DELETE)
     @DeleteMapping("/schedules/{id}")
-    public Long deleteSchedule(@PathVariable Long id, @RequestBody PostScheduleRequestDto requestDto) {
-        return null;
+    public Long deleteSchedule(@PathVariable Long id, @RequestBody DeleteScheduleRequestDto deleteScheduleRequestDto) {
+        ScheduleService scheduleService = new ScheduleService(jdbcTemplate);
+        return scheduleService.deleteSchedule(id, deleteScheduleRequestDto);
     }
 }

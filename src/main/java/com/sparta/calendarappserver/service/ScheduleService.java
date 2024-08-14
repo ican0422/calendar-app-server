@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.service;
 
+import com.sparta.calendarappserver.dto.request.DeleteScheduleRequestDto;
 import com.sparta.calendarappserver.dto.request.PostScheduleRequestDto;
 import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
@@ -64,6 +65,25 @@ public class ScheduleService {
             Schedule findPwd = scheduleRepository.findByPwd(id);
             if (findPwd.getPassword().equals(updateScheduleRequestDto.getPassword())) {
                 scheduleRepository.update(id, updateScheduleRequestDto);
+                return id;
+            } else {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("해당 일정이 없습니다.");
+        }
+    }
+
+    // 일정 삭제
+    public Long deleteSchedule(Long id, DeleteScheduleRequestDto deleteScheduleRequestDto) {
+        ScheduleRepository scheduleRepository = new ScheduleRepository(jdbcTemplate);
+
+        // 일정이 있는지 확인
+        Schedule findId = scheduleRepository.findById(id);
+        if (findId != null){
+            Schedule findPwd = scheduleRepository.findByPwd(id);
+            if (findPwd.getPassword().equals(deleteScheduleRequestDto.getPassword())) {
+                scheduleRepository.delete(id);
                 return id;
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
