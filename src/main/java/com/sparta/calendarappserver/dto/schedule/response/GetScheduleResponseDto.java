@@ -24,5 +24,9 @@ public class GetScheduleResponseDto {
 
     public GetScheduleResponseDto(Schedule oneSchedule) {
         this.id = oneSchedule.getId();
+        this.name = oneSchedule.getName();
+        this.content = oneSchedule.getContent();
+        this.registrationDate = oneSchedule.getRegistrationDate();
+        this.revisionDate = oneSchedule.getRevisionDate();
     }
 }
