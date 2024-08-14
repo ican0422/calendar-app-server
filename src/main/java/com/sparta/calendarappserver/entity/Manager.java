@@ -1,7 +1,6 @@
 package com.sparta.calendarappserver.entity;
 
 import com.sparta.calendarappserver.dto.manager.request.PostManagerRequestDto;
-import com.sparta.calendarappserver.dto.manager.response.PostManagerResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

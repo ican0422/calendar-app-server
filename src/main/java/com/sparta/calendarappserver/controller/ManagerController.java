@@ -5,7 +5,6 @@ import com.sparta.calendarappserver.dto.manager.request.UpdateManagerRequestDto;
 import com.sparta.calendarappserver.dto.manager.response.GetAllManagerResponseDto;
 import com.sparta.calendarappserver.dto.manager.response.GetManagerResponseDto;
 import com.sparta.calendarappserver.dto.manager.response.PostManagerResponseDto;
-import com.sparta.calendarappserver.dto.schedule.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.service.ManagerService;
 import org.springframework.web.bind.annotation.*;
 
