@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.repository;
 
+import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
@@ -91,6 +92,42 @@ public class ScheduleRepository {
         });
     }
     // 사용자 일정 수정 ( 내용, 담당자 변경)
+    public void update(Long id, UpdateScheduleRequestDto updateScheduleRequestDto) {
+        String sql ="UPDATE schedule SET Name = ?, Content = ? WHERE Id = ?";
+        jdbcTemplate.update(sql, updateScheduleRequestDto.getName(), updateScheduleRequestDto.getContent(), id);
+    }
 
     // 사용자 일정 삭제
+
+    // 비밀번호 확인
+    public Schedule findByPwd(Long id) {
+        // DB 조회
+        String sql = "SELECT Password FROM schedule WHERE Id = ?";
+
+        return jdbcTemplate.query(sql, resultSet -> {
+            if(resultSet.next()) {
+                Schedule schedule = new Schedule();
+                schedule.setPassword(resultSet.getString("Password"));
+                return schedule;
+            } else {
+                return null;
+            }
+        }, id);
+    }
+
+    // 일정 ID 확인
+    public Schedule findById(Long id) {
+        // DB 조회
+        String sql = "SELECT Id FROM schedule WHERE Id = ?";
+
+        return jdbcTemplate.query(sql, resultSet -> {
+            if(resultSet.next()) {
+                Schedule schedule = new Schedule();
+                schedule.setId(resultSet.getLong("Id"));
+                return schedule;
+            } else {
+                return null;
+            }
+        }, id);
+    }
 }

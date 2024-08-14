@@ -1,5 +1,6 @@
 package com.sparta.calendarappserver.controller;
 
+import com.sparta.calendarappserver.dto.request.UpdateScheduleRequestDto;
 import com.sparta.calendarappserver.dto.response.GetAllScheduleResponseDto;
 import com.sparta.calendarappserver.dto.response.GetScheduleResponseDto;
 import com.sparta.calendarappserver.dto.request.PostScheduleRequestDto;
@@ -44,12 +45,13 @@ public class ScheduleController {
     }
     // 일정 수정 (PUT)
     @PutMapping("/schedules/{id}")
-    public Long updateSchedule(@PathVariable Long id, @RequestBody PostScheduleRequestDto requestDto) {
-        return null;
+    public Long updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto) {
+        ScheduleService scheduleService = new ScheduleService(jdbcTemplate);
+        return scheduleService.updateSchedule(id, updateScheduleRequestDto);
     }
     // 일정 삭제 (DELETE)
     @DeleteMapping("/schedules/{id}")
-    public Long deleteSchedule(@PathVariable Long id) {
+    public Long deleteSchedule(@PathVariable Long id, @RequestBody PostScheduleRequestDto requestDto) {
         return null;
     }
 }
