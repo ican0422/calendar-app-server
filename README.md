@@ -2,8 +2,7 @@
 
 ### 일정 API 명세서
 
-
-![일정 API 명세서](https://github.com/user-attachments/assets/88b6e074-0ada-4c9e-a8b7-334fa89eac41)
+![일정 API 명세서](https://github.com/user-attachments/assets/3851bd6b-7c9e-4aa0-a845-9e1f38787b3b)
 
 ### 담당자 API 명세서
 
