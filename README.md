@@ -14,7 +14,7 @@
 
 ---
 ### SQL
-```
+```mysql
 -- 관리자 테이블 생성
 create table Manager
 (
