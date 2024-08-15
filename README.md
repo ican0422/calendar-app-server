@@ -1,9 +1,8 @@
 나만의 일정 관리 앱 서버 만들기
 
-
 일정 API 명세서
 
-![일정 API 명세서]([https://github.com/user-attachments/assets/b6e95981-7871-4349-9025-ce2320038f04](https://github.com/user-attachments/assets/79110a3f-ab8a-4578-aa02-3e9252e859bf))
+![일정 API 명세서](https://github.com/user-attachments/assets/88b6e074-0ada-4c9e-a8b7-334fa89eac41)
 
 담당자 API 명세서
 
