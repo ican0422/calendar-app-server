@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,14 +31,16 @@ public class ScheduleController {
 
     // 일정 등록 (POST)
     @PostMapping("/schedules")
-    public PostScheduleResponseDto createSchedule(@RequestBody PostScheduleRequestDto requestDto) {
+    public PostScheduleResponseDto createSchedule(@Validated @RequestBody PostScheduleRequestDto requestDto) {
         return scheduleService.creatSchedule(requestDto);
     }
+
     // 일정 조회 (GET)
     @GetMapping("/schedules/{id}")
     public GetScheduleResponseDto getOneSchedule(@PathVariable Long id) {
         return scheduleService.getScheduleResponseDto(id);
     }
+
     // 일정 전체 조회 (GET)
     @GetMapping("/schedules/param")
     public List<GetAllScheduleResponseDto> getAllSchedule(
@@ -47,19 +50,26 @@ public class ScheduleController {
     ) {
         return scheduleService.getAllSchedule(revision, name, pageable);
     }
+
     // 일정 수정 (PUT)
     @PutMapping("/schedules/{id}")
     public Long updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto updateScheduleRequestDto) {
         return scheduleService.updateSchedule(id, updateScheduleRequestDto);
     }
+
     // 일정 삭제 (DELETE)
     @DeleteMapping("/schedules/{id}")
     public Long deleteSchedule(@PathVariable Long id, @RequestBody DeleteScheduleRequestDto deleteScheduleRequestDto) {
         return scheduleService.deleteSchedule(id, deleteScheduleRequestDto);
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class})
-    public ResponseEntity<String> exception(Exception e) {
+    // 오류 예외처리
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> ex(NullPointerException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> ex(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 }

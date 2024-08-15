@@ -12,7 +12,7 @@ create table Manager
 create table Schedule
 (
     Id int AUTO_INCREMENT primary key,
-    Manager_Id int,
+    Manager_Id int not null,
     Content text not null,
     Password varchar(255) not null,
     Registration_Date datetime default current_timestamp,
