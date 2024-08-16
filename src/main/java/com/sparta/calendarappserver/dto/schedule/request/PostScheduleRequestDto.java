@@ -1,10 +1,8 @@
 package com.sparta.calendarappserver.dto.schedule.request;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import org.springframework.lang.NonNull;
 
 // 받는 요청 데이터
 @Getter

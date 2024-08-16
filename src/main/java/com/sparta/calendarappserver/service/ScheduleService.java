@@ -56,35 +56,32 @@ public class ScheduleService {
 
     // 일정 수정
     public Long updateSchedule(Long id, UpdateScheduleRequestDto updateScheduleRequestDto) {
-        // 일정이 있는지 확인
-        Schedule findId = scheduleRepository.findById(id);
-        if (findId != null){
-            Schedule findPwd = scheduleRepository.findByPwd(id);
-            if (findPwd.getPassword().equals(updateScheduleRequestDto.getPassword())) {
-                scheduleRepository.update(id, updateScheduleRequestDto);
-                return id;
-            } else {
-                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
-            throw new NullPointerException("해당 일정이 없습니다.");
-        }
+        // 일정이 있는지 확인 및 비밀번호 확인
+        findScheduleByIdAndPassword(id, updateScheduleRequestDto.getPassword());
+        scheduleRepository.update(id, updateScheduleRequestDto);
+        return id;
+
     }
 
     // 일정 삭제
     public Long deleteSchedule(Long id, DeleteScheduleRequestDto deleteScheduleRequestDto) {
-        // 일정이 있는지 확인
+        // 일정이 있는지 확인 및 비밀번호 확인
+        findScheduleByIdAndPassword(id, deleteScheduleRequestDto.getPassword());
+        scheduleRepository.delete(id);
+        return id;
+    }
+
+    // 일정 확인 및 비밀번호 확인 메서드
+    private void findScheduleByIdAndPassword(Long id, String password) {
         Schedule findId = scheduleRepository.findById(id);
-        if (findId != null){
-            Schedule findPwd = scheduleRepository.findByPwd(id);
-            if (findPwd.getPassword().equals(deleteScheduleRequestDto.getPassword())) {
-                scheduleRepository.delete(id);
-                return id;
-            } else {
-                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-            }
-        } else {
+        Schedule findPwd = scheduleRepository.findByPwd(id);
+
+        if (findId == null) {
             throw new NullPointerException("해당 일정이 없습니다.");
         }
+        if (!findPwd.getPassword().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
     }
+
 }
