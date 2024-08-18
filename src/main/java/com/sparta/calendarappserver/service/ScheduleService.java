@@ -7,6 +7,8 @@ import com.sparta.calendarappserver.dto.schedule.response.GetAllScheduleResponse
 import com.sparta.calendarappserver.dto.schedule.response.GetScheduleResponseDto;
 import com.sparta.calendarappserver.dto.schedule.response.PostScheduleResponseDto;
 import com.sparta.calendarappserver.entity.Schedule;
+import com.sparta.calendarappserver.exception.custom.ScheduleNotFound;
+import com.sparta.calendarappserver.exception.custom.SchedulePasswordNotFound;
 import com.sparta.calendarappserver.repository.ScheduleRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -77,10 +79,10 @@ public class ScheduleService {
         Schedule findPwd = scheduleRepository.findByPwd(id);
 
         if (findId == null) {
-            throw new NullPointerException("해당 일정이 없습니다.");
+            throw new ScheduleNotFound(id);
         }
         if (!findPwd.getPassword().equals(password)) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new SchedulePasswordNotFound(password);
         }
     }
 

@@ -62,14 +62,4 @@ public class ScheduleController {
     public Long deleteSchedule(@PathVariable Long id, @RequestBody DeleteScheduleRequestDto deleteScheduleRequestDto) {
         return scheduleService.deleteSchedule(id, deleteScheduleRequestDto);
     }
-
-    // 오류 예외처리
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> ex(NullPointerException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> ex(IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-    }
 }
