@@ -59,11 +59,11 @@ public class ScheduleRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Schedule>() {
             @Override
             public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Long scheduleId = rs.getLong("id");
+                Long scheduleId = rs.getLong("Id");
                 String name = rs.getString("Name");
                 String content = rs.getString("Content");
-                Date registration_Date = rs.getDate("registration_Date");
-                Date revision_Date = rs.getDate("revision_Date");
+                Date registration_Date = rs.getDate("Registration_Date");
+                Date revision_Date = rs.getDate("Revision_Date");
                 return new Schedule(scheduleId, name, content, registration_Date, revision_Date);
             }
         });
@@ -101,31 +101,31 @@ public class ScheduleRepository {
             @Override
             public GetAllScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 // SQL 의 결과로 받아온 schedule 데이터들을 GetAllScheduleResponseDto 타입으로 변환해줄 메서드
-                Long id = rs.getLong("id");
+                Long id = rs.getLong("Id");
                 String name = rs.getString("Name");
                 String content = rs.getString("Content");
-                Date registration_Date = rs.getDate("registration_Date");
-                Date revision_Date = rs.getDate("revision_Date");
+                Date registration_Date = rs.getDate("Registration_Date");
+                Date revision_Date = rs.getDate("Revision_Date");
                 return new GetAllScheduleResponseDto(id, name, content, registration_Date, revision_Date);
             }
         });
     }
     // 사용자 일정 수정 ( 내용, 담당자 변경)
     public void update(Long id, UpdateScheduleRequestDto updateScheduleRequestDto) {
-        String sql ="UPDATE schedule SET Manager_Id = ?, Content = ? WHERE Id = ?";
+        String sql ="UPDATE Schedule SET Manager_Id = ?, Content = ? WHERE Id = ?";
         jdbcTemplate.update(sql, updateScheduleRequestDto.getManager_id(), updateScheduleRequestDto.getContent(), id);
     }
 
     // 사용자 일정 삭제
     public void delete(Long id) {
-        String sql = "DELETE FROM schedule WHERE id = ?";
+        String sql = "DELETE FROM Schedule WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     // 비밀번호 확인
     public Schedule findByPwd(Long id) {
         // DB 조회
-        String sql = "SELECT Password FROM schedule WHERE Id = ?";
+        String sql = "SELECT Password FROM Schedule WHERE Id = ?";
 
         return jdbcTemplate.query(sql, resultSet -> {
             if(resultSet.next()) {
@@ -141,7 +141,7 @@ public class ScheduleRepository {
     // 일정 ID 확인
     public Schedule findById(Long id) {
         // DB 조회
-        String sql = "SELECT Id FROM schedule WHERE Id = ?";
+        String sql = "SELECT Id FROM Schedule WHERE Id = ?";
 
         return jdbcTemplate.query(sql, resultSet -> {
             if(resultSet.next()) {
